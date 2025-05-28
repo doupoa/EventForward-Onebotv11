@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "id": "event-forward-obv11",
+  "version": "${version}",
+  "name": "Event-Forward-obv11",
+  "description": "Use HTTP to forward players' entering and exiting the server and players' chat events through onebotv11 protocol",
+  "authors": [
+    "doupoa"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+  "license": "CC0-1.0",
+  "icon": "assets/event-forward-obv11/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.qaq.EventForwardobv11"
+    ],
+    "client": [
+      "com.qaq.EventForwardobv11Client"
+    ]
+  },
+  "mixins": [
+    "event-forward-obv11.mixins.json",
+    {
+      "config": "event-forward-obv11.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.14",
+    "minecraft": "~1.21.5",
+    "java": ">=21",
+    "fabric-api": "*"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
