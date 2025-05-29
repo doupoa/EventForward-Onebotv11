@@ -34,13 +34,13 @@ public class OneBotV11HandlerImpl implements OneBotV11Handler {
             // 4. 处理特殊消息类型
             if (parsed.isReply && parsed.toMe) {
                 // 将回复消息转换为 ~ 开头
-                parsed.content = "~" + parsed.content;
+                parsed.content = EventForwardobv11.CONFIG.messagePrefix.getFirst() + parsed.content;
             }
 
             // 5. 根据消息前缀处理
-            if (parsed.content.startsWith("~")) {
+            if (EventForwardobv11.CONFIG.messagePrefix.contains(parsed.content)) {
                 handleForwardMessage(nickname, parsed.content.substring(1));
-            } else if (parsed.content.startsWith("!")) {
+            } else if (EventForwardobv11.CONFIG.commandPrefix.contains(parsed.content)) {
                 if (parsed.content.equals("!list")) {
                     handleGetPlayerList(userId);
                     return;

@@ -56,19 +56,28 @@
   // 要转发的群聊群号
   "adminUsers": [
     ""
-  ]
+  ],
   // 管理员账号
+  "commandPrefix": [
+    "!"
+  ],
+  // 指令前缀
+  "messagePrefix":[
+    "~","～"
+  ]
+  //消息前缀
 }
 ```
+后续更新插件时您只需覆盖旧版本插件,服务器启动时会自动合并旧配置至新文件.
 
 ## Websocket协议群聊指令
 
 选用Websocket协议后，在群聊中您可以进行以下操作向服务端发送指令：
 
-- **发送 `~[消息内容]`** ：发送以波浪号开头的文本将会以全服广播的方式转发至服务端中。
+- **发送 `<消息前缀>[消息内容]`** ：发送以**消息前缀**开头的文本将会以全服广播的方式转发至服务端中。
 - **回复机器人发送的内容并艾特**：在群聊中回复机器人的文本将会以全服广播的方式转发至服务端中。一般回复用户时会自带艾特，在此状态机器人才会转发消息至游戏。
-- **发送 `![指令] [参数]`**：发送以感叹号开头的文本将会以指令的形式转发至服务端中(若未配置管理员账号将忽略)。
-- **发送 `!list`**: 列出服务器所有成员，所有用户可使用。
+- **发送 `<指令前缀>[指令] [参数]`**：发送以**指令前缀**开头的文本将会以指令的形式转发至服务端中(若未配置管理员账号将忽略)。
+- **发送 `<指令前缀>list`**: 列出服务器所有成员，所有用户可使用。
 
 ## EventForward-Onebotv11 (English)<a id="english"/>
 
@@ -130,18 +139,25 @@ under the server root directory. The content is as follows:
   // Target group chat ID
   "adminUsers": [
     ""
-  ]
+  ],
   // Administrator accounts
+  "commandPrefix": [
+    "!"
+  ],
+  // instruction prefix
+  "messagePrefix":[
+    "~","～"
+  ]
+  //message prefix
 }
 ```
+When updating the plug-in later, you only need to overwrite the old version plug-in, and the old configuration will be automatically merged into the new file when the server starts.
 
 ## Websocket Protocol Group Chat Commands
 
 When using the Websocket protocol, you can send the following commands to the server from the group chat:
 
-- **Send `~[message]`**: Text starting with a tilde (`~`) will be broadcasted to the entire server.
-- **Reply to the bot's message and mention it**: Replying to the bot's message in the group chat (usually with a
-  mention) will broadcast the message to the server.
-- **Send `![command] [arguments]`**: Text starting with an exclamation mark (`!`) will be forwarded as a command to the
-  server (ignored if no admin account is configured).
-- **Send `!list`**: Lists all server members (available to all users).
+- **send `<message prefix>[message content] `**: the text sent starting with**message prefix** will be forwarded to the server in the form of full service broadcast.
+- **reply to the content sent by the robot and Aite**: the text replying to the robot in the group chat will be forwarded to the server in the form of full-service broadcast. Generally, when replying to the user, the robot will bring its own Aite, and in this state, the robot will forward the message to the game.
+- **send `<instruction prefix>[instruction] [parameter] `**: text sent starting with **instruction prefix**will be forwarded to the server in the form of instructions (ignored if the administrator account is not configured).
+- **send `<instruction prefix>list`**: lists all members of the server, which can be used by all users.

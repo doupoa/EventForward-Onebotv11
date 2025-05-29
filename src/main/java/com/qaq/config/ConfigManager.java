@@ -7,6 +7,7 @@ import com.qaq.EventForwardobv11;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.lang.reflect.Field;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -14,6 +15,25 @@ public class ConfigManager {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final Path CONFIG_PATH = Paths.get("config", "event-forward-obv11.json");
 
+    private static void mergeConfigs(Object oldConfig, Object newConfig){
+        if (oldConfig != null) {
+            Field[] fields = oldConfig.getClass().getDeclaredFields();
+            for (Field field : fields) {
+                field.setAccessible(true); // 允许访问私有字段
+                try {
+                    Object oldValue = field.get(oldConfig);
+                    Object newValue = field.get(newConfig);
+
+                    // 根据字段类型进行不同的默认值判断
+                    if (oldValue != null && !oldValue.equals(newValue)) {
+                        field.set(newConfig, oldValue);
+                    }
+                } catch (IllegalAccessException e) {
+                    EventForwardobv11.LOGGER.error(e.toString());
+                }
+            }
+        }
+    }
     public static ModConfig loadConfig() {
         try {
             File configFile = CONFIG_PATH.toFile();
@@ -31,14 +51,7 @@ public class ConfigManager {
             ModConfig newConfig = new ModConfig();
 
             // 合并配置 - 将旧配置的值复制到新配置中
-            if (oldConfig != null) {
-                newConfig.obServer = oldConfig.obServer != null ? oldConfig.obServer : newConfig.obServer;
-                newConfig.obPort = oldConfig.obPort != 0 ? oldConfig.obPort : newConfig.obPort;
-                newConfig.obToken = oldConfig.obToken != null ? oldConfig.obToken : newConfig.obToken;
-                newConfig.forwardMethod = oldConfig.forwardMethod != null ? oldConfig.forwardMethod : newConfig.forwardMethod;
-                newConfig.forwardGroup = oldConfig.forwardGroup != null ? oldConfig.forwardGroup : newConfig.forwardGroup;
-                newConfig.adminUsers = oldConfig.adminUsers != null ? oldConfig.adminUsers : newConfig.adminUsers;
-            }
+            mergeConfigs(oldConfig, newConfig);
 
             // 保存合并后的配置
             saveConfig(newConfig);
