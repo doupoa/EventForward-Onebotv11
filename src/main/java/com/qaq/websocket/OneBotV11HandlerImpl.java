@@ -38,9 +38,9 @@ public class OneBotV11HandlerImpl implements OneBotV11Handler {
             }
 
             // 5. 根据消息前缀处理
-            if (EventForwardobv11.CONFIG.messagePrefix.contains(parsed.content)) {
+            if (EventForwardobv11.CONFIG.messagePrefix.contains(parsed.content.substring(0, 1))) {
                 handleForwardMessage(nickname, parsed.content.substring(1));
-            } else if (EventForwardobv11.CONFIG.commandPrefix.contains(parsed.content)) {
+            } else if (EventForwardobv11.CONFIG.commandPrefix.contains(parsed.content.substring(0, 1))) {
                 if (parsed.content.equals("!list")) {
                     handleGetPlayerList(userId);
                     return;
